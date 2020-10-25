@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-
-const config: SocketIoConfig = { url: 'https://3000-fc65a30f-b072-4206-ac71-830d93a0dbb2.ws-eu01.gitpod.io', options: {} };
 
 @NgModule({
   declarations: [
@@ -12,7 +10,7 @@ const config: SocketIoConfig = { url: 'https://3000-fc65a30f-b072-4206-ac71-830d
   ],
   imports: [
     BrowserModule,
-    SocketIoModule.forRoot(config)
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
