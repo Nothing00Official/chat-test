@@ -8,3 +8,6 @@
 		<button  class="chat-messages-create-button" (click)="sendMessage()"> Send </button>
 	</div>
 </div>
+<input #userinput placeholder="username"><button (click)="username=userinput.value">Logga</button>
+<input #destinput placeholder="destinatario"><button (click)="destinatario=destinput.value">imposta</button>
+<button (click)="startChat()">Start</button>

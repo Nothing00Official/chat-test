@@ -9,11 +9,19 @@ const io = socketIO(server);
 
 const port = process.env.PORT || 3000;
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
+var usernames = new Object();
+var recipients = new Object();
+
+io.on('connection', async (socket) => {
   socket.on('message', (msg) => {
-    console.log(msg);
-    socket.broadcast.emit('message-broadcast', msg);
+    socket.to(usernames[recipients[msg["username"]]]).emit('message', msg["message"]);
+  });
+  socket.on('username', (msg) => {
+    usernames[msg] = socket.id;
+  });
+  socket.on('recipient', (msg) => {
+    let split = msg.split("#");
+    recipients[split[0]] = split[1];
   });
 });
 

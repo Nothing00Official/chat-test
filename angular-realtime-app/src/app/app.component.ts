@@ -12,16 +12,20 @@ export class AppComponent {
 
   socket;
   message: string;
+  username: string;
+  destinatario: string;
 
   constructor() { }
 
   ngOnInit() {
-    this.setupSocketConnection();
-  }
-
-  setupSocketConnection() {
-    this.socket = io(END_POINT);
-    this.socket.on('message-broadcast', (data: string) => {
+    this.socket = io.connect(END_POINT, {
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: Infinity
+    });
+    this.socket.on('message', (data: string) => {
+      console.log(data);
       if (data) {
         const element = document.createElement('li');
         element.innerHTML = data;
@@ -33,8 +37,17 @@ export class AppComponent {
     });
   }
 
+  startChat() {
+    this.setupSocketConnection();
+  }
+
+  setupSocketConnection() {
+    this.socket.emit('username', this.username);
+    this.socket.emit('recipient', this.username + "#" + this.destinatario);
+  }
+
   sendMessage() {
-    this.socket.emit('message', this.message);
+    this.socket.emit('message', { username: this.username, message: this.message });
     const element = document.createElement('li');
     element.innerHTML = this.message;
     element.style.background = 'white';
